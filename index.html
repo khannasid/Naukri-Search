@@ -1,0 +1,58 @@
+<html>
+<head>
+    <title>Naukri Scrapping</title>
+</head>
+<body>
+    <h1>Naukri Scrapper</h1>
+
+    <h3>Add job URL</h3>
+    <input type="text" placeholder="add url" class="channel-input" />
+    <button type="submit" onclick="submitUrl()">Submit</button>
+    <table>
+        <tr>
+            <th> Job Title </th>
+            <th> Company name </th>
+            <th> Location </th>
+            <th> Experience required </th>
+            <th> Skills required </th>
+            <th> Job description </th>
+            <th> Salary range </th>
+            <th> Date of posting </th>
+            <th> Job type </th>
+        </tr>
+        <tr>
+            <td id="job"></td>
+            <td id="company"></td>
+            <td id="location"></td>
+            <td id="experience"></td>
+            <td id="skill"></td>
+            <td id="jd"></td>
+            <td id="salary"></td>
+            <td id="dop"></td>
+            <td id="jt"></td>
+        </tr>
+    </table>
+    <script>
+        function submitUrl(){
+            const channelURL = document.querySelector('.channel-input').value;
+            fetch('http://localhost:3000/creators', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({channelURL})
+                })    
+            }
+        async function loadData(){
+            const res = await fetch('http://localhost:3000/creators');
+            const jobs = await res.json();
+            console.log(jobs);
+            const job = document.getElementById('job');
+            const company = document.getElementById('company');
+            job.value = jobs.job;
+            company.value = jobs.company;
+        }
+        loadData();
+    </script>
+</body>
+</html>
